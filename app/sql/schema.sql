@@ -2,7 +2,7 @@
 -- projetado para postgres
 
 CREATE TABLE Setor(
-    id SERIAL PROMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome TEXT NOT NULL UNIQUE,
     descricao TEXT
 );
@@ -10,7 +10,7 @@ CREATE TABLE Setor(
 CREATE TABLE Usuario(
     id SERIAL PRIMARY KEY,
     nip INTEGER NOT NULL UNIQUE,
-    nome, TEXT NOT NULL
+    nome TEXT NOT NULL
 );
 
 CREATE TABLE Chave(
