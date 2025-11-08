@@ -1,4 +1,4 @@
-from db.queries import fetch, execute
+from db.queries import fetch, fetch_all, execute
 
 def registrar_saida(chave_id, usuario_id):
     sql = """
@@ -20,10 +20,25 @@ def registrar_entrada(emprestimo_id, conferido_por=None):
 
 def historico_chave(chave_id):
     sql = """
-        SELECT e.id, u.nome, e.data_saida, e.data_entrada
+        SELECT e.id, u.nome AS usuario, e.data_saida, e.data_entrada, e.conferido_por, e.observacoes
         FROM Emprestimo e
         JOIN Usuario u ON u.id = e.usuario_id
         WHERE e.chave_id = %s
         ORDER BY e.data_saida DESC;
     """
-    return fetch_all(sql, (chave_id,))
+    return fetch_all(sql)
+
+def listar_emprestimos_abertos():
+    sql = """
+        SELECT e.id, u.nome AS usuario, c.codigo AS chave, e.data_saida
+        FROM Emprestimo e
+        JOIN Usuario u ON u.id = e.usuario_id
+        JOIN Chave c ON c.id = e.chave_id
+        WHERE e.data_entrada IS NULL
+        ORDER BY e.data_saida;
+    """
+    return fetch_all(sql)
+
+def excluir_emprestimo(id_emprestimo):
+    sql = "DELETE FROM Emprestimo WHERE id = %s RETURNING id;"
+    return fetch(sql, (id_emprestimo,))
