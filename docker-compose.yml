@@ -18,21 +18,18 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./app/sql:/docker-entrypoint-initdb.d
 
-  app:
+  web:
     build: ./app
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       DB_HOST: db
       DB_NAME: chaves
       DB_USER: admin
       DB_PASS: admin
-    volumes:
-      - ./app/src:/app/src
-      - ./data:/data
-      - ./out:/app/out
-    working_dir: /app
+      PYTHONPATH: /app/src
+    ports:
+      - "5000:5000"
 
 volumes:
   pgdata:

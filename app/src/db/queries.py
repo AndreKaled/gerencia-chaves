@@ -3,7 +3,6 @@ from .connection import db
 def execute(sql, params=None):
     cur = db.cursor()
     cur.execute(sql, params or ())
-    db.commit()
     return cur
 
 def fetch(sql, params=None):

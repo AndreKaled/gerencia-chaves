@@ -13,15 +13,12 @@ class Database:
                 user=os.getenv("DB_USER", "admin"),
                 password=os.getenv("DB_PASS", "admin"),
             )
+            self.conn.autocommit = True
 
     def cursor(self):
         if self.conn is None:
             self.connect()
-        return self.conn.cursor()
-    
-    def commit(self):
-        if self.conn:
-            self.conn.commit()
+        return self.conn.cursor(row_factory=psycopg.rows.dict_row)
 
     def close(self):
         if self.conn:

@@ -7,7 +7,8 @@ def criar_setor(nome, descricao=None):
         ON CONFLICT (nome) DO NOTHING
         RETURNING id;
     """
-    return fetch(sql, (nome, descricao))[0]
+    result = fetch(sql, (nome,descricao))
+    return result['id'] if result else None
 
 def listar_setores():
     sql = "SELECT id, nome, descricao FROM Setor ORDER BY nome;"

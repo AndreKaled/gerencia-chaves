@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerência de Chaves</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        input { padding: 5px; margin: 5px; }
+        button { padding: 5px 10px; }
+    </style>
+</head>
+<body>
+    <h1>Setores cadastrados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for setor in setores %}
+            <tr>
+                <td>{{ setor['id'] }}</td>
+                <td>{{ setor['nome'] }}</td>
+                <td>{{ setor['descricao'] or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Criar setor</h2>
+    <form action="{{ url_for('criar_setor_route') }}" method="POST">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="descricao" placeholder="Descrição">
+        <button type="submit">Criar</button>
+    </form>
+</body>
+</html>
